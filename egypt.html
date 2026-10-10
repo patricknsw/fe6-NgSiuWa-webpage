@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <title>埃及｜四境行 Four Journeys</title>
+        <meta name="description" content="埃及：埃及係古文明嘅代名詞：吉薩金字塔、人面獅身像、路克索神廟同帝王谷。尼羅河游輪帶你沿岸睇盡數千年歷史。">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;800&family=Noto+Sans+TC:wght@400;600&display=swap">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="icon" type="image/svg+xml" href="./svg/four-journeys-logo.svg">
+
+    </head>
+    <body class="egypt">
+        <header>
+            <a class="logo" href="index.html" aria-label="四境行 回到主頁"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 6l5 14-5 14-5-14z" fill="#d9483b"/><path d="M20 6l5 14h-10z" fill="currentColor"/></svg>四境行</a>
+            <nav aria-label="國家導覽">
+                <a href="kyoto.html">京都</a>
+                <a href="paris.html">巴黎</a>
+                <a href="iceland.html">冰島</a>
+                <a href="egypt.html" class="on">埃及</a>
+            </nav>
+            <button id="theme" aria-label="切換深淺色">☾ 切換</button>
+        </header>
+        <main>
+            <p class="crumb"><a href="index.html">主頁</a> ／ 埃及</p>
+            <section class="hero_2" role="img" aria-label="埃及吉薩金字塔同人面獅身像">
+                
+                <div>
+                    <h1>埃及</h1>
+                    <p>尼羅河畔嘅古文明</p>
+                </div>
+            </section>
+            <div class="bodyg">
+                <div class="box">
+                    <h3>簡介</h3>
+                    <p>埃及係古文明嘅代名詞：吉薩金字塔、人面獅身像、路克索神廟同帝王谷。尼羅河游輪帶你沿岸睇盡數千年歷史。</p>
+                </div>
+                <div class="box">
+                    <h3>歷史與文化</h3>
+                    <details>
+                        <summary>古王國（約公元前2686年起）</summary>
+                        <p>法老建造金字塔，其中胡夫金字塔曾是世界最高建築逾3800年。</p>
+                    </details>
+                    <details>
+                        <summary>象形文字與羅塞塔石碑</summary>
+                        <p>1799年出土嘅羅塞塔石碑，令學者在1822年成功破解象形文字。</p>
+                    </details>
+                    <details>
+                        <summary>圖坦卡門與帝王谷</summary>
+                        <p>1922年霍華德·卡特發現圖坦卡門陵墓，震驚世界，亦掀起古埃及熱潮。</p>
+                    </details>
+                </div>
+                <div class="box wide">
+                    <h3>最佳旅遊季節（點擊月份）</h3>
+                    <div class="m" id="monthGrid">
+                        <button class="r3" aria-pressed="false" data-i="0">1月</button>
+                        <button class="r3" aria-pressed="false" data-i="1">2月</button>
+                        <button class="r3" aria-pressed="false" data-i="2">3月</button>
+                        <button class="r2" aria-pressed="false" data-i="3">4月</button>
+                        <button class="r1" aria-pressed="false" data-i="4">5月</button>
+                        <button class="r1" aria-pressed="false" data-i="5">6月</button>
+                        <button class="r1" aria-pressed="false" data-i="6">7月</button>
+                        <button class="r1" aria-pressed="false" data-i="7">8月</button>
+                        <button class="r2" aria-pressed="false" data-i="8">9月</button>
+                        <button class="r3" aria-pressed="false" data-i="9">10月</button>
+                        <button class="r3" aria-pressed="false" data-i="10">11月</button>
+                        <button class="r3" aria-pressed="false" data-i="11">12月</button>
+                    </div>
+                    <p class="note" aria-live="polite">揀一個月份，睇吓適唔適合去。</p>
+                </div>
+                <div class="box">
+                    <h3>交通</h3>
+                    <p>開羅國際機場有計程車同網約車入市區；城際可坐國內航班、臥鋪火車去路克索同亞斯文。景點之間建議包車或參加有導遊嘅行程。</p>
+                </div>
+                <div class="box">
+                    <h3>旅行小貼士</h3>
+                    <ul>
+                        <li>夏天極熱，景點盡量安排喺清晨</li>
+                        <li>參觀清真寺或保守地區，衣着要端莊</li>
+                        <li>議價係日常，事先問清楚價錢</li>
+                    </ul>
+                </div>
+                <div class="box wide">
+                    <h3>延伸睇</h3>
+                    <div class="btns">
+                        <a href="https://www.youtube.com/results?search_query=埃及+旅遊+介紹" target="_blank" rel="noopener">▶ 睇相關影片</a>
+                        <a class="o" href="https://egymonuments.gov.eg/" target="_blank" rel="noopener">官方旅遊網站</a>
+                    </div>
+                </div>
+            </div>
+            <section class="atts" id="spots">
+                <h3>必去四大景點</h3>
+                <div class="attg">
+                    <article class="att">
+
+                        <!-- <div class="ph">
+                            <img src="./images/吉薩金字塔群_01.jpg" alt="吉薩金字塔群" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+                            <a href="" target="_blank" rel="noopener" hidden>相片未能載入，按此喺 Wikimedia Commons 搜尋</a>
+                        </div> -->
+
+
+                         <div class="media-hover-container">
+                        <!-- Static Image -->
+                        <div class="ph">
+                            <img src="./images/吉薩金字塔群_01.jpg" alt="吉薩金字塔群" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+                        
+                        </div>
+                        
+                        <!-- Video (Hidden by default) -->
+                        <video class="hover-video" muted loop playsinline preload="none">
+                            <source src="./videos/spots/埃及/吉薩金字塔群3.mp4" type="video/mp4">
+                        </video>
+                        </div>
+
+
+                        <h4>吉薩金字塔群</h4>
+                        <p>胡夫、卡夫拉同孟卡拉三座金字塔，加上人面獅身像。</p>
+                        <dl>
+                            <dt>歷史文化</dt>
+                            <dd>建於古王國時期，約四千五百年前，係古代世界七大奇蹟中至今仍然存在嘅一個。</dd>
+                            <dt>交通</dt>
+                            <dd>開羅市區乘網約車或包車，約40分鐘。</dd>
+                            <dt>貼士</dt>
+                            <dd>清晨入場避熱避人；入內部金字塔通常要另外買票。</dd>
+                        </dl>
+                    </article>
+                    <article class="att">
+                        <div class="ph">
+                            <img src="./images/路克索神廟.jpg" alt="路克索神廟" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+                            <a href="" target="_blank" rel="noopener" hidden>相片未能載入，按此喺 Wikimedia Commons 搜尋</a>
+                        </div>
+                        <h4>路克索神廟</h4>
+                        <p>位於尼羅河東岸、市中心內嘅古代神廟，夜景特別靚。</p>
+                        <dl>
+                            <dt>歷史文化</dt>
+                            <dd>由新王國時期阿蒙霍特普三世興建，後來拉美西斯二世擴建。</dd>
+                            <dt>交通</dt>
+                            <dd>路克索市區步行可達。</dd>
+                            <dt>貼士</dt>
+                            <dd>黃昏後燈光亮起，氣氛最好。</dd>
+                        </dl>
+                    </article>
+                    <article class="att">
+                        <div class="ph">
+                            <img src="./images/卡納克神廟.jpg" alt="卡納克神廟" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+                            <a href="" target="_blank" rel="noopener" hidden>相片未能載入，按此喺 Wikimedia Commons 搜尋</a>
+                        </div>
+                        <h4>卡納克神廟</h4>
+                        <p>規模龐大嘅神廟群，大柱廳有134根巨柱。</p>
+                        <dl>
+                            <dt>歷史文化</dt>
+                            <dd>建設跨越約二千年，歷代法老不斷擴建，係古埃及宗教中心。</dd>
+                            <dt>交通</dt>
+                            <dd>路克索市北面約3公里，可乘計程車或馬車。</dd>
+                            <dt>貼士</dt>
+                            <dd>範圍好大，預留半日；夜間有聲光表演。</dd>
+                        </dl>
+                    </article>
+                    <article class="att">
+                        <div class="ph">
+                            <img src="./images/阿布辛貝神廟.jpg" alt="阿布辛貝神廟" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">
+                            <a href="" target="_blank" rel="noopener" hidden>相片未能載入，按此喺 Wikimedia Commons 搜尋</a>
+                        </div>
+                        <h4>阿布辛貝神廟</h4>
+                        <p>拉美西斯二世鑿入岩壁嘅巨型神廟，門前有四尊坐像。</p>
+                        <dl>
+                            <dt>歷史文化</dt>
+                            <dd>1960年代因興建亞斯文高壩，神廟被整體切割遷移至高處保存。</dd>
+                            <dt>交通</dt>
+                            <dd>亞斯文出發約3小時車程，多數人參加清晨車隊或旅行團。</dd>
+                            <dt>貼士</dt>
+                            <dd>要好早起程；日間氣溫高，帶帽同水。</dd>
+                        </dl>
+                    </article>
+                </div>
+            </section>
+            <nav class="pager" aria-label="上一個／下一個國家">
+                <a href="iceland.html">上一個國家<span>冰島</span></a>
+                <a class="next" href="kyoto.html">下一個國家<span>日本・京都</span></a>
+            </nav>
+        </main>
+        <footer>四境行 Four Journeys ・ 出發前請向官方網站核實最新資訊</footer>
+        <script src="javascript/javascript.js"></script>
+        <script>
+            const NT = {1: "酷熱（部分地區超過40°C），遊覽要小心中暑。", 2: "氣溫過渡，早晚較舒服。", 3: "天氣涼爽乾爽，最適合遊覽古蹟同尼羅河。"};
+            const MO = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+            const grid = document.getElementById('monthGrid');
+            grid.addEventListener('click', ev => {
+                const b = ev.target.closest('button');
+                if (!b) return;
+                grid.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed','false'));
+                b.setAttribute('aria-pressed','true');
+                const cls = [...b.classList].find(x => x.startsWith('r'));
+                const r = cls ? cls.slice(1) : '2';
+                const label = {'1':'不太建議。','2':'普通。','3':'最推薦。'}[r];
+                grid.nextElementSibling.textContent = MO[+b.dataset.i] + '：' + label + (NT[r] || '');
+            });
+        </script>
+    </body>
+</html>
