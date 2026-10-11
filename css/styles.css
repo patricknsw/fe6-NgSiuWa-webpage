@@ -1,743 +1,717 @@
-/* 四境行 Four Journeys － 全站樣式（所有 CSS 集中於此） */
-:root{ --bg:#f3f5f8;
-       --tx:#14202e;
-       --mu:#52606f;
-       --card:#fff;
-       --ln:#d5dce4
+/* 四境行 Four Journeys － 全站樣式（所有 CSS 集中於此）【修正版 v3】 */
+
+/* ===== 主題變數 ===== */
+:root{
+  --cursor-plane:url('../images/mouse_pointer/airplane64x64.png') 4 4, auto;      /* 一般區域（4 4 = 點擊熱點） */
+  --cursor-plane-link:url('../images/mouse_pointer/airplane64x64.png') 4 4, pointer; /* 可點擊元素：圖片載入失敗時退回手指 */
+  --bg:#f3f5f8;
+  --tx:#14202e;
+  --mu:#52606f;
+  --card:#fff;
+  --ln:#d5dce4;
+  --hover-ln:#333;              /* 按鈕 hover 邊框（支援深色模式） */
+  --hdr:rgba(187,181,181,.8);   /* header 捲動後嘅背景 */
 }
 
 @media(prefers-color-scheme:dark){
-:root:not([data-theme="light"]){ --bg:#0e1520;
-                                   --tx:#e8edf3;
-                                   --mu:#9aa8b8;
-                                   --card:#172231;
-                                   --ln:#2a394b
-}
-}
-
-:root[data-theme="dark"]{ --bg:#0e1520;
-                     --tx:#e8edf3;
-                     --mu:#9aa8b8;
-                     --card:#172231;
-                     --ln:#2a394b
+  :root:not([data-theme="light"]){
+    --bg:#0e1520;
+    --tx:#e8edf3;
+    --mu:#9aa8b8;
+    --card:#172231;
+    --ln:#2a394b;
+    --hover-ln:#e8edf3;
+    --hdr:rgba(23,34,49,.85);
+  }
 }
 
-html{ scroll-behavior:smooth;
-scroll-padding-top:64px
+:root[data-theme="dark"]{
+  --bg:#0e1520;
+  --tx:#e8edf3;
+  --mu:#9aa8b8;
+  --card:#172231;
+  --ln:#2a394b;
+  --hover-ln:#e8edf3;
+  --hdr:rgba(23,34,49,.85);
 }
 
-*,*:before,*:after{ box-sizing:border-box
+/* ===== 基礎 ===== */
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:64px;
 }
 
-body{ margin:0;
-       background:var(--bg);
-       color:var(--tx);
-       font:16px/1.8 "Noto Sans TC","PingFang HK","Microsoft JhengHei",sans-serif;
-       padding-top:env(safe-area-inset-top,0px);
-       padding-bottom:env(safe-area-inset-bottom,0px);
+*,*:before,*:after{ box-sizing:border-box }
 
-       /* cursor: url('../images/mouse_pointer/airplane32x32.png') auto; */
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--tx);
+  font:16px/1.8 "Noto Sans TC","PingFang HK","Microsoft JhengHei",sans-serif;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  overflow-x:hidden;   /* 舊瀏覽器 fallback */
+  overflow-x:clip;     /* 新瀏覽器：唔會影響 sticky header */
+  cursor:var(--cursor-plane);
 }
 
-h1,h2,h3{ font-family:"Noto Serif TC","Songti TC",serif;
-       line-height:1.3;
-       margin:0
+h1,h2,h3{
+  font-family:"Noto Serif TC","Songti TC",serif;
+  line-height:1.3;
+  margin:0;
 }
 
-a{ color:inherit
+a{ color:inherit }
+
+:focus-visible{
+  outline:3px solid #f2b705;
+  outline-offset:2px;
 }
 
-:focus-visible{ outline:3px solid #f2b705;
-              outline-offset:2px
+/* ===== Header / 導覽 ===== */
+header{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:1px 4vw;
+  background:transparent;   /* 預設全透明，冇底線 */
+  -webkit-backdrop-filter:blur(6px);   /* 輕微模糊，令導覽文字喺影片／內容上面睇得清 */
+  backdrop-filter:blur(6px);
+  transition:background-color .3s ease;
 }
 
-
-header {
-       position: sticky;
-       top: env(safe-area-inset-top, 0px);
-       z-index: 9;
-       display: flex;
-       align-items: center;
-       gap: 14px;
-       padding: 1px 4vw;
-       /* 將原先的 background: var(--bg); 改為半透明 background 或 color-mix */
-       /* 不透明度的白色背景 */
-       background: rgba(187, 181, 181, 0.8); 
-
-
-       backdrop-filter: blur(10px); /* 建議搭配毛玻璃特效，質感更好 */
-       border-bottom: 1px solid var(--ln);
-
-    /* opacity: 0; */
+/* 捲動後（由 JS 加上 .scrolled）先加背景色，模糊維持不變 */
+header.scrolled{
+  background:var(--hdr);
 }
 
-.logo{ display:flex;
-       align-items:center;
-       gap:10px;
-       text-decoration:none;
-       font:800 20px "Noto Serif TC",serif;
-       white-space:nowrap
+/* 有全版影片 Hero 嘅頁面：header 浮喺影片上面（唔佔位）。
+   body.has-hero 係主要做法；:has() 作後備，兩樣都唔會互相衝突 */
+body.has-hero header,
+body:has(.hero) header{
+  position:fixed;
+  top:env(safe-area-inset-top,0px);
+  left:0;
+  right:0;
 }
 
-nav{ display:flex;
-       gap:4px;
-       margin-left:auto;
-       overflow-x:auto;
-
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  font:800 20px "Noto Serif TC",serif;
+  white-space:nowrap;
 }
 
-nav a{ padding:6px 12px;
-       border-radius:99px;
-       text-decoration:none;
-       font-size:15px;
-       white-space:nowrap
+nav{
+  display:flex;
+  gap:4px;
+  margin-left:auto;
+  overflow-x:auto;
+  min-width:0;               /* 令 nav 可以收窄，唔會撐爆 header */
+  scrollbar-width:none;      /* Firefox：隱藏 scrollbar */
+  -ms-overflow-style:none;   /* 舊 Edge */
 }
 
-nav a:hover,nav a.on{ background:var(--ln)
+nav::-webkit-scrollbar{ display:none }   /* Chrome / Safari：隱藏 scrollbar */
+
+nav a{
+  padding:6px 12px;
+  border-radius:99px;
+  text-decoration:none;
+  font-size:15px;
+  white-space:nowrap;
 }
 
-#theme{ border:1px solid var(--ln);
-       background:none;
-       color:inherit;
-       border-radius:99px;
-       padding:6px 12px;
-       cursor:pointer;
-       font:inherit;
-       font-size:14px;
-       flex:none
+nav a:hover,nav a.on{ background:var(--ln) }
+
+#theme{
+  border:1px solid var(--ln);
+  background:none;
+  color:inherit;
+  border-radius:99px;
+  padding:6px 12px;
+  cursor:pointer;
+  font:inherit;
+  font-size:14px;
+  flex:none;
 }
 
-footer{ text-align:center;
-       color:var(--mu);
-       padding:5vh 4vw;
-       /* border-top:1px solid var(--ln); */
-       font-size:14px
+footer{
+  text-align:center;
+  color:var(--mu);
+  padding:5vh 4vw;
+  font-size:14px;
 }
 
-
-
-
-.intro {
-       position: relative;
-       overflow: hidden;
-       color: #ffffff;
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       text-align: center;
-       /* padding: 0rem 0rem; */
-       /* padding:9vh 6vw 4vh; */
-       padding:7vh 6vw 1vh;
-
-       max-width:1100px;
-       margin:auto
+/* ===== 舊款 Intro（其他頁面如仍有用到先會生效；主頁已唔再用） ===== */
+.intro{
+  position:relative;
+  overflow:hidden;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:7vh 6vw 1vh;
+  max-width:1100px;
+  margin:auto;
 }
 
-.intro-video {
-       position: absolute;
-       top: 50%;
-       left: 50%;
-       min-width: 100%;
-       min-height: 100%;
-       width: auto;
-       height: auto;
-       transform: translate(-50%, -50%);
-       object-fit: cover;
-       z-index: 1;
+.intro-video{
+  position:absolute;
+  top:50%;
+  left:50%;
+  min-width:100%;
+  min-height:100%;
+  width:auto;
+  height:auto;
+  transform:translate(-50%,-50%);
+  object-fit:cover;
+  z-index:1;
 }
 
-.intro-overlay {
-       position: absolute;
-       top: 0;
-       left: 0;
-       width: 100%;
-       height: 100%;
-       background: rgba(0, 0, 0, 0.2); /* 暗色遮罩以確保文字清晰 */
-       z-index: 2;
+.intro-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.2);
+  z-index:2;
 }
 
-.intro-content {
-       position: relative;
-       z-index: 3;
+.intro-content{
+  position:relative;
+  z-index:3;
 }
 
+.intro h1{ font-size:clamp(34px,7vw,64px) }
 
-
-
-.intro h1{ font-size:clamp(34px,7vw,64px)
+.intro p{
+  color:#fff;
+  font-size:18px;
+  max-width:34em;
 }
 
-.intro p{ 
-       /* color:var(--mu); */
-       color: white;
-       font-size:18px;
-       max-width:34em
-}
-
-
-.media-hover-container {
-       position: relative;
-       display: inline-block;
-       /* width: 300px;  */
-       /* height: 200px; */
-       overflow: hidden;
-       border-radius: 8px;
-       cursor: pointer;
+/* ===== 圖片 hover 切換影片 ===== */
+.media-hover-container{
+  position:relative;
+  display:inline-block;
+  overflow:hidden;
+  border-radius:8px;
+  cursor:pointer;
 }
 
 .static-image,
-.hover-video {
-       width: 100%;
-       height: 100%;
-       object-fit: cover;
-       position: absolute;
-       top: 0;
-       left: 0;
-       transition: opacity 0.3s ease-in-out;
+.hover-video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  position:absolute;
+  top:0;
+  left:0;
+  transition:opacity .3s ease-in-out;
 }
 
-
-.hover-video {
-       opacity: 0;
-       pointer-events: none; 
+.hover-video{
+  opacity:0;
+  pointer-events:none;
 }
 
+.media-hover-container:hover .hover-video{ opacity:1 }
+.media-hover-container:hover .static-image{ opacity:0 }
 
-
-
-
-/* On hover: hide image, show video */
-.media-hover-container:hover .hover-video {
-       opacity: 1;
-}
-
-.media-hover-container:hover .static-image {
-       opacity: 0;
-}
-
-
-
-
-.grid{ max-width:1500px;
-       margin:auto;
-       /* padding:2vh 5vw 8vh; */
-       padding-top: 2vh;
-       padding-right: 5vw;
-       padding-bottom: 1vh;
-       padding-left: 5vw;
-
-       display:grid;
-       gap:22px;
-       grid-template-columns:1fr
+/* ===== 主頁卡片格 ===== */
+.grid{
+  width:100%;
+  max-width:1500px;
+  margin:0 auto;
+  padding:2vh 5vw 1vh;
+  display:grid;
+  gap:22px;
+  grid-template-columns:1fr 1fr;   /* 手機：兩欄 */
 }
 
 @media(min-width:720px){
-       .grid{ grid-template-columns:1fr 1fr 1fr 1fr
-       }
-
-
+  .grid{ grid-template-columns:repeat(4,1fr) }
 }
 
-.card{ position:relative;
-       text-decoration:none;
-       color:#fff;
-       border-radius:14px;
-       overflow:hidden;
-       /* min-height:260px; */
-       min-height:150px;
-
-       border: 2px solid white;
-
-       display:flex;
-       align-items:flex-end;
-       padding:10px;
-       background:linear-gradient(160deg,var(--a),var(--b));
-       isolation:isolate;
-
-       /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
-       transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-
+@media(max-width:719px){
+  .grid{
+    padding-left:4vw;
+    padding-right:4vw;
+  }
+  .card{ min-height:120px }
 }
 
-.card:hover {
-       /* Scale up by 5% (1.05) to 10% (1.1) */
-       transform: scale(1.1); 
-
-       /* Optional: Lift shadow for a floating 3D effect */
-       box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+/* 卡片：主圖 + 暗色漸層；冇 --photo 時退回主題色漸層 */
+.card{
+  position:relative;
+  text-decoration:none;
+  color:#fff;
+  border-radius:14px;
+  overflow:hidden;
+  min-height:150px;
+  border:2px solid #fff;
+  display:flex;
+  align-items:flex-end;
+  padding:10px;
+  background-color:var(--a);
+  background-image:
+    linear-gradient(180deg,rgba(10,14,20,.05),rgba(10,14,20,.65)),
+    var(--photo,linear-gradient(160deg,var(--a),var(--b)));
+  background-size:cover;
+  background-position:center;
+  isolation:isolate;
+  text-align:left;
+  transition:transform .3s ease,box-shadow .3s ease;
 }
 
-.card svg{ position:absolute;
-       right:-10px;
-       bottom:-10px;
-       width:62%;
-       opacity:.9;
-       z-index:-1
+.card:hover{
+  transform:scale(1.05);
+  box-shadow:0 12px 20px rgba(0,0,0,.15);
+  outline:2px solid rgba(255,255,255,.6);
+  outline-offset:-2px;
+  z-index:10;
 }
 
-.card .t{ text-shadow:0 1px 12px rgba(0,0,0,.35)
+.card .t{ text-shadow:0 1px 12px rgba(0,0,0,.35) }
+.card h2{ font-size:clamp(26px,4vw,34px) }
+.card p{ margin:4px 0 0; font-size:16px }
+
+/* ===== 國家頁 Hero（舊款） ===== */
+.hero_2{
+  position:relative;
+  min-height:56vh;
+  display:flex;
+  align-items:flex-end;
+  padding:6vw;
+  color:#fff;
+  background-color:var(--a);
+  background-image:
+    linear-gradient(180deg,rgba(10,14,20,.15),rgba(10,14,20,.6)),
+    var(--photo,linear-gradient(160deg,var(--a),var(--b)));
+  background-size:cover;
+  background-position:center;
+  overflow:hidden;
 }
 
-.card h2{ font-size:clamp(26px,4vw,34px)
+.hero_2 div{
+  position:relative;
+  max-width:560px;
+  text-shadow:0 1px 12px rgba(0,0,0,.35);
 }
 
-.card p{ margin:4px 0 0;
-       font-size:16px
+.hero_2 h1{ font-size:clamp(40px,9vw,88px) }
+.hero_2 p{ margin:6px 0 0; font-size:18px }
+
+/* 已改用相片背景，裝飾 SVG 一律隱藏 */
+.hero_2 svg,
+.card svg{ display:none }
+
+/* ===== 全版 Hero（影片） ===== */
+.hero{
+  position:relative;
+  isolation:isolate;       /* 建立 stacking context：令影片 z-index:-2 唔會跌到 body 背景後面 */
+  min-height:100vh;
+  min-height:100svh;       /* 手機網址列會令 100vh 偏高，支援嘅瀏覽器改用 svh */
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:90px 0 40px;     /* 避開浮動 header，內容多過螢幕時 hero 會自動撐高 */
+  overflow:hidden;         /* 只用嚟裁切影片；hero 跟內容長高，唔會裁走卡片 */
 }
 
-.card:hover{ outline:2px solid rgba(255,255,255,.6);
-       outline-offset:-2px;
+.hero-video{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:100%;
+  height:100%;
+  z-index:-2;
+  transform:translate(-50%,-50%);
+  object-fit:cover;
+  object-position:center;
+  filter:brightness(.7) contrast(1.1);
 }
 
-.hero_2{ position:relative;
-       min-height:56vh;
-       display:flex;
-       align-items:flex-end;
-       padding:6vw;
-       color:#fff;
-       background:linear-gradient(160deg,var(--a),var(--b));
-       overflow:hidden
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.15);
+  z-index:-1;
 }
 
-.hero_2 svg{ position:absolute;
-       right:0;
-       bottom:0;
-       width:min(70%,560px);
-       opacity:0.9;
+.hero-content{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:1500px;
+  text-align:center;
+  padding:0 20px;
 }
 
-.hero_2 div{ position:relative;
-       max-width:560px;
-       text-shadow:0 1px 12px rgba(0,0,0,.35)
+.hero-content h1{
+  font-size:4rem;
+  margin-bottom:20px;
+  color:#fff;
 }
 
-.hero_2 h1{ font-size:clamp(40px,9vw,88px)
+.hero-content p{
+  font-size:1.5rem;
+  margin-bottom:30px;
+  color:#fff;
 }
 
-.hero_2 p{ margin:6px 0 0;
-       font-size:18px
+#center-intro{
+  color:#fff;
+  text-shadow:0 1px 14px rgba(0,0,0,.45);
 }
 
-
-
-/* Hero container */
-.hero {
-       position: relative;
-       height: 100vh; /* Full viewport height */
-       width: 100%;
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       overflow: hidden; /* Prevent scrollbars from video extending */
+#center-intro p{
+  font-size:clamp(16px,4vw,24px);
+  line-height:1.5;
+  max-width:34em;
+  margin:0 auto;
 }
 
-/* Video styling */
-.hero-video {
-       position: absolute;
-       top: 50%;
-       left: 50%;
-       /* min-width: 100%; */
-       /* min-height: 100%; */
-       /* width: auto; */
-       /* height: auto; */
-       width: 100%;
-       height: 100%;
-       z-index: -2;
-       transform: translate(-50%, -50%);
-       object-fit: cover; /* Ensures the video covers the area without stretching */
-
-       object-position: center;
-       /* object-position: center; */
-       /* display: block; */
-       filter: brightness(0.7) contrast(1.1);
+#center-intro h1{
+  font-size:clamp(32px,8vw,50px);
+  margin-bottom:12px;
 }
 
-
-
-/* Dark overlay to make text more readable */
-.hero-overlay {
-       position: absolute;
-       top: 0;
-       left: 0;
-       width: 100%;
-       height: 100%;
-       background: rgba(0, 0, 0, 0.0); /* 50% opacity black */
-       z-index: -1;
+.hero-btn{
+  padding:15px 30px;
+  font-size:1.2rem;
+  color:#fff;
+  background-color:#007BFF;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  text-decoration:none;
+  transition:background-color .3s ease;
 }
 
-/* Content styling */
-.hero-content {
-       position: relative;
-       z-index: 1;
-       text-align: center;
-       /* color: white; */
-       padding: 0 20px;
+.hero-btn:hover{ background-color:#0056b3 }
+
+/* ===== 麵包屑 / 內容區 ===== */
+.crumb{
+  max-width:1000px;
+  margin:18px auto 0;
+  padding:0 5vw;
+  font-size:14px;
+  color:var(--mu);
 }
 
-.hero-content h1 {
-       font-size: 4rem;
-       margin-bottom: 20px;
-       color: white;
-       /* font-size: 45px; */
-
+.crumb a{
+  color:inherit;
+  text-decoration:underline;
 }
 
-#center-intro p {
-       /* color: black; */
-       /* font-size: 30px; */
-       font-size: clamp(16px, 4vw, 24px);
-       line-height: 1.5;
+.crumb a:hover{
+  color:var(--accent, #120397);
 }
 
-#center-intro h1 {
-       /* color: black; */
-       /* font-size: 50px; */
-       font-size: clamp(32px, 8vw, 50px); /* Scales smoothly between screen sizes */
-       margin-bottom: 12px;
-
-}
-
-
-.hero-content p {
-       font-size: 1.5rem;
-       margin-bottom: 30px;
-       color: white;
-}
-
-.hero-btn  {
-       padding: 15px 30px;
-       font-size: 1.2rem;
-       color: white;
-       background-color: #007BFF;
-       border: none;
-       border-radius: 5px;
-       cursor: pointer;
-       text-decoration: none;
-       transition: background-color 0.3s ease;
-}
-
-.hero-btn:hover {
-       background-color: #0056b3;
-}
-
-
-
-
-.crumb{ max-width:1000px;
-       margin:18px auto 0;
-       padding:0 5vw;
-       font-size:14px;
-       color:var(--mu)
-}
-
-.crumb a{ text-decoration:underline
-}
-
-.bodyg{ max-width:1000px;
-       margin:auto;
-       padding:3vh 5vw 0;
-       display:grid;
-       gap:28px
-}
-
-
-/* 設定按鈕基本動畫轉場效果 */
-#monthGrid button {
-       transition: border-color 0.2s ease, box-shadow 0.2s ease;
-       cursor: pointer; /* 確保滑鼠移上去時顯示手勢標籤 */
-       border: 2px solid transparent; /* 預設邊框透明 */
-}
-
-/* 當滑鼠懸停 (Hover) 時顯示邊框並加上輕微陰影 */
-#monthGrid button:hover {
-       border-color: #333; /* 邊框顏色 */
-       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* 當點擊 (Active) 時微縮放，提供更好的按壓反饋 */
-#monthGrid button:active {
-       transform: scale(0.98);
-}
-
-/* Style for the buttons/links inside the 'btns' container */
-.box.wide .btns a {
-       display: inline-block;
-       border: 2px solid #ccc; /* Adds a default light gray border */
-       border-radius: 4px;     /* Optional: rounds the corners slightly */
-       padding: 8px 16px;      /* Adjust padding as needed */
-       transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease; /* Smooth transitions */
-}
-
-/* Enlarge the tag and change the border color on mouse hover */
-       .box.wide .btns a:hover {
-       transform: scale(1.08);       /* Enlarges the element by 8% */
-       border-color: #0066cc;        /* Changes the border color on hover (e.g., to blue) */
-}
-
-
-@media (max-width: 719px) {
-       .grid {
-              grid-template-columns: 1fr 1fr;
-              padding-left: 4vw;
-              padding-right: 4vw;
-       }
-
-       .card {
-              min-height: 120px;
-       }
+.bodyg{
+  max-width:1000px;
+  margin:auto;
+  padding:3vh 5vw 0;
+  display:grid;
+  gap:28px;
 }
 
 @media(min-width:800px){
-       .bodyg{ grid-template-columns:1.1fr 1fr
-       }
-
-       .wide{ grid-column:1/-1
-       }
-
+  .bodyg{ grid-template-columns:1.1fr 1fr }
+  .wide{ grid-column:1/-1 }
 }
 
-.box{ background:var(--card);
-       border:1px solid var(--ln);
-       border-radius:10px;
-       padding:20px 22px
+.box{
+  background:var(--card);
+  border:1px solid var(--ln);
+  border-radius:10px;
+  padding:20px 22px;
 }
 
-.box h3{ font-size:21px;
-       margin-bottom:10px;
-       color:var(--a)
+.box h3{
+  font-size:21px;
+  margin-bottom:10px;
+  color:var(--a);
 }
 
-details{ border-top:1px solid var(--ln);
-       padding:8px 0
+/* ===== 月份按鈕 ===== */
+#monthGrid button{
+  transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease;
+  cursor:pointer;
+  border:2px solid transparent;
 }
 
-details:first-of-type{ border-top:0
+#monthGrid button:hover{
+  border-color:var(--hover-ln);   /* 跟隨明／暗主題 */
+  box-shadow:0 4px 10px rgba(0,0,0,.15);
 }
 
-summary{ cursor:pointer;
-       font-weight:600
+#monthGrid button:active{ transform:scale(.98) }
+
+/* ===== 摺疊 / 月曆 / 清單 ===== */
+details{
+  border-top:1px solid var(--ln);
+  padding:8px 0;
 }
 
-details p{ margin:6px 0 4px;
-       color:var(--mu)
+details:first-of-type{ border-top:0 }
+
+summary{ cursor:pointer; font-weight:600 }
+
+details p{ margin:6px 0 4px; color:var(--mu) }
+
+.m{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:6px;
+  margin:8px 0;
 }
 
-.m{ display:grid;
-       grid-template-columns:repeat(6,1fr);
-       gap:6px;
-       margin:8px 0
+.m button{
+  border:0;
+  border-radius:6px;
+  padding:8px 0;
+  cursor:pointer;
+  font:inherit;
+  font-size:14px;
+  color:#14202e;
+  background:var(--ln);
 }
 
-.m button{ border:0;
-       border-radius:6px;
-       padding:8px 0;
-       cursor:pointer;
-       font:inherit;
-       font-size:14px;
-       color:#14202e;
-       background:var(--ln)
+.m button.r3{ background:#7bc67e }
+.m button.r2{ background:#f2d36b }
+.m button.r1{ background:#e9a09a }
+.m button[aria-pressed=true]{ outline:3px solid var(--tx) }
+
+.note{
+  min-height:3.4em;
+  color:var(--mu);
+  margin:0;
 }
 
-.m button.r3{ background:#7bc67e
+ul{ margin:0; padding-left:1.2em }
+li{ margin:4px 0 }
+
+/* ===== 按鈕群 ===== */
+.btns{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
 }
 
-.m button.r2{ background:#f2d36b
+.btns a{
+  background:var(--a);
+  color:#fff;
+  padding:9px 16px;
+  border-radius:99px;
+  text-decoration:none;
+  font-weight:600;
+  font-size:15px;
 }
 
-.m button.r1{ background:#e9a09a
+.btns a.o{
+  background:none;
+  color:var(--tx);
+  border:1px solid var(--ln);
 }
 
-.m button[aria-pressed=true]{ outline:3px solid var(--tx)
+/* 寬版方塊內嘅按鈕：方角 + 邊框，hover 用主題色 */
+.box.wide .btns a{
+  display:inline-block;
+  border:2px solid var(--ln);
+  border-radius:4px;
+  padding:8px 16px;
+  transition:transform .3s ease,border-color .3s ease,background-color .3s ease;
 }
 
-.note{ min-height:3.4em;
-       color:var(--mu);
-       margin:0
+.box.wide .btns a:hover{
+  transform:scale(1.06);
+  border-color:var(--a);
 }
 
-ul{ margin:0;
-       padding-left:1.2em
+/* ===== 上／下一頁 ===== */
+.pager{
+  max-width:1000px;
+  margin:6vh auto 0;
+  padding:0 5vw;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
 }
 
-li{ margin:4px 0
+.pager a{
+  flex:1;
+  max-width:48%;
+  border:1px solid var(--ln);
+  border-radius:10px;
+  padding:14px 16px;
+  text-decoration:none;
+  font-size:14px;
+  color:var(--mu);
 }
 
-.btns{ display:flex;
-       flex-wrap:wrap;
-       gap:10px
+.pager a span{
+  display:block;
+  color:var(--tx);
+  font-weight:600;
+  font-size:16px;
+  margin-top:2px;
 }
 
-.btns a{ background:var(--a);
-       color:#fff;
-       padding:9px 16px;
-       border-radius:99px;
-       text-decoration:none;
-       font-weight:600;
-       font-size:15px
+.pager a.next{ text-align:right }
+
+/* ===== 景點卡片 ===== */
+.att{
+  background:var(--card);
+  border:1px solid var(--ln);
+  border-radius:10px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
 }
 
-.btns a.o{ background:none;
-       color:var(--tx);
-       border:1px solid var(--ln)
+.att .ph{
+  aspect-ratio:3/2;
+  background:linear-gradient(160deg,var(--a),var(--b));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 }
 
-.pager{ max-width:1000px;
-       margin:6vh auto 0;
-       padding:0 5vw;
-       display:flex;
-       justify-content:space-between;
-       gap:12px
+.att img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-.pager a{ flex:1;
-       max-width:48%;
-       border:1px solid var(--ln);
-       border-radius:10px;
-       padding:14px 16px;
-       text-decoration:none;
-       font-size:14px;
-       color:var(--mu)
+.att .ph a{
+  color:#fff;
+  font-size:14px;
+  padding:12px;
 }
 
-.pager a span{ display:block;
-              color:var(--tx);
-              font-weight:600;
-              font-size:16px;
-              margin-top:2px
+.att h4{
+  font:800 20px "Noto Serif TC",serif;
+  margin:14px 18px 4px;
+  color:var(--a);
 }
 
-.pager a.next{ text-align:right
+.att p{ margin:0 18px 8px; color:var(--mu) }
+
+.att dl{ margin:0 18px 16px; font-size:15px }
+.att dt{ font-weight:600; margin-top:6px }
+.att dd{ margin:0; color:var(--mu) }
+
+.atts{
+  max-width:1000px;
+  margin:6vh auto 0;
+  padding:0 5vw;
 }
 
-@media(prefers-reduced-motion:reduce){
-       html{ scroll-behavior:auto
-       }
+.atts h3{
+  font:800 26px "Noto Serif TC",serif;
+  margin-bottom:16px;
 }
 
-.hero_2{ background-image:linear-gradient(180deg, rgba(10,14,20,.15), rgba(10,14,20,.6)), var(--photo);
-       background-size:cover;
-       background-position:center
+.attg{
+  display:grid;
+  gap:22px;
+  grid-template-columns:1fr;
 }
 
-.hero_2 svg{ display:none
+@media(min-width:800px){
+  .attg{ grid-template-columns:1fr 1fr }
 }
 
-.card{ background-image:linear-gradient(180deg, rgba(10,14,20,.05), rgba(10,14,20,.65)), var(--photo);
-       background-size:cover;
-       background-position:center
-}
-
-.card svg{ display:none
-}
-
-.att{ background:var(--card);
-       border:1px solid var(--ln);
-       border-radius:10px;
-       overflow:hidden;
-       display:flex;
-       flex-direction:column
-}
-
-.att .ph{ aspect-ratio:3/2;
-       background:linear-gradient(160deg,var(--a),var(--b));
-       display:flex;
-       align-items:center;
-       justify-content:center;
-       text-align:center
-}
-
-.att img{ width:100%;
-       height:100%;
-       object-fit:cover
-}
-
-.att .ph a{ color:#fff;
-       font-size:14px;
-       padding:12px
-}
-
-.att h4{ font:800 20px "Noto Serif TC",serif;
-       margin:14px 18px 4px;
-       color:var(--a)
-}
-
-.att p{ margin:0 18px 8px;
-       color:var(--mu)
-}
-
-.att dl{ margin:0 18px 16px;
-       font-size:15px
-}
-
-.att dt{ font-weight:600;
-       margin-top:6px
-}
-
-.att dd{ margin:0;
-       color:var(--mu)
-}
-
-.atts{ max-width:1000px;
-       margin:6vh auto 0;
-       padding:0 5vw
-}
-
-.atts h3{ font:800 26px "Noto Serif TC",serif;
-       margin-bottom:16px
-}
-
-.attg{ display:grid;
-gap:22px;
-grid-template-columns:1fr
-}
-
-
-
-/* 為景點卡片 (.att) 以及所有方塊 (.box, .box wide) 加入懸停放大效果 */
+/* 景點卡片同內容方塊嘅 hover 放大（幅度收細，減少遮擋相鄰元素） */
 .attg .att,
-.bodyg .box {
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 確保過渡平順 */
+.bodyg .box{
+  transition:transform .3s ease,box-shadow .3s ease;
 }
 
 .attg .att:hover,
-.bodyg .box:hover {
-    transform: scale(1.06); /* 放大 3%，可按喜好調整（例如 1.02 或 1.05） */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* 放大時增加陰影提升立體感 */
-    z-index: 10; /* 確保懸停時浮喺最面層，唔會被隔離嘅元素遮擋 */
+.bodyg .box:hover{
+  transform:scale(1.03);
+  box-shadow:0 10px 20px rgba(0,0,0,.15);
+  z-index:10;   /* hover 時浮喺最面層 */
 }
 
+/* ===== 細屏（手機）：header 收細，導覽放得晒 =====
+   注意：必須放喺 header / .logo / nav / #theme / .intro 基礎樣式「之後」，
+   否則會被後面同優先級嘅基礎規則蓋返 */
+@media(max-width:600px){
+  header{ gap:8px; padding:4px 3vw }
+  .logo{ font-size:17px; gap:6px }
+  .logo svg,.logo img{ width:28px; height:28px }
+  nav{ gap:0 }
+  nav a{ padding:4px 8px; font-size:14px }
+  #theme{ padding:4px 8px; font-size:13px }
 
+  .intro{ padding-top:90px }
 
-@media(min-width:800px){
-.attg{ grid-template-columns:1fr 1fr
+  /* 主頁 hero：手機頂部留多少少位畀 header */
+  .hero{ padding-top:80px }
 }
 
-       
+/* ===== 減少動態效果（系統設定） ===== */
+@media(prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto }
 
+  *,*:before,*:after{
+    transition:none !important;
+    animation:none !important;
+  }
+
+  .card:hover,
+  .attg .att:hover,
+  .bodyg .box:hover,
+  .box.wide .btns a:hover,
+  #monthGrid button:active{
+    transform:none;
+  }
+}
+
+/* ===== 飛機游標：可點擊元素亦一律用飛機（否則會變返手指） ===== */
+a,
+button,
+summary,
+#theme,
+.hero-btn,
+.media-hover-container,
+.m button,
+#monthGrid button{
+  cursor:var(--cursor-plane-link);
 }
 
 /* ===== 各國主題色同主圖（頁面 body 同主頁卡片共用） ===== */
-.kyoto{ --a:#a3262a;
-       --b:#f08a5d;
-       --photo: url('../images/Banner/伏見稻荷大社.jpg')
+.kyoto{
+  --a:#a3262a;
+  --b:#f08a5d;
+  --photo:url('../images/Banner/伏見稻荷大社.jpg');
 }
 
-.paris{ --a:#1f3c88;
-       --b:#e0a458;
-       /* --photo:url('./images/艾菲爾鐵塔.jpg') */
-       --photo:url('../images/Banner/法國_02.jpg')
-
+.paris{
+  --a:#1f3c88;
+  --b:#e0a458;
+  --photo:url('../images/Banner/法國_02.jpg');
 }
 
-.iceland{ --a:#0b6e6e;
-       --b:#7b5ea7;
-       --photo:url('../images/Banner/傑古沙龍冰河湖.jpg')
+.iceland{
+  --a:#0b6e6e;
+  --b:#7b5ea7;
+  --photo:url('../images/Banner/傑古沙龍冰河湖.jpg');
 }
 
-.egypt{ --a:#a8741a;
-       --b:#2a6f97;
-       --photo:url('../images/Banner/埃及_02.jpg')
+.egypt{
+  --a:#a8741a;
+  --b:#2a6f97;
+  --photo:url('../images/Banner/埃及_02.jpg');
 }
-
-
