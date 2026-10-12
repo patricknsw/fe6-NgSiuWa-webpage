@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-HK">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>旅行性格測驗｜四境行 Four Journeys</title>
+    <meta name="description" content="五條小問題，睇吓京都、巴黎、冰島、埃及邊一個先係你嘅命定旅程。">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;800&family=Noto+Sans+TC:wght@400;600&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/svg+xml" href="svg/four-journeys-logo.svg">
+</head>
+
+<body>
+    <header>
+        <a class="logo" href="index.html" aria-label="四境行 回到主頁"><svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 6l5 14-5 14-5-14z" fill="#d9483b"/><path d="M20 6l5 14h-10z" fill="currentColor"/></svg>四境行</a>
+        <nav aria-label="國家導覽">
+            <a href="kyoto.html">京都</a>
+            <a href="paris.html">巴黎</a>
+            <a href="iceland.html">冰島</a>
+            <a href="egypt.html">埃及</a>
+            <a href="quiz.html">測驗</a>
+        </nav>
+        <button id="theme" type="button" aria-label="切換深淺色">☾ 切換</button>
+    </header>
+
+    <!-- 重點：.qz 係測驗頁所有樣式嘅外層，冇呢個 class 就會「冇 CSS」 -->
+    <main class="qz" id="app"></main>
+
+    <footer>四境行 Four Journeys ・ 出發前請向官方網站核實最新資訊</footer>
+
+    <script src="javascript/javascript.js"></script>
+    <script>
+    (function () {
+        const app = document.getElementById('app');
+
+        const places = {
+            kyoto:   {name:'日本・京都', href:'kyoto.html',   desc:'你鍾意靜、慢同細節。古寺、庭園同四季變化，最啱你。'},
+            paris:   {name:'法國・巴黎', href:'paris.html',   desc:'你重視藝術、美食同生活情趣。博物館、咖啡店同街頭漫步就係你嘅節奏。'},
+            iceland: {name:'冰島',       href:'iceland.html', desc:'你渴望大自然同冒險。極光、火山、瀑布同廣闊風景會令你重新充電。'},
+            egypt:   {name:'埃及',       href:'egypt.html',   desc:'你著迷歷史同文明。金字塔、神廟同尼羅河會滿足你嘅好奇心。'}
+        };
+
+        const qs = [
+            {q:'你理想嘅早上係點樣？', o:[['喺安靜嘅庭園或茶室飲茶','kyoto'],['喺街角咖啡店食牛角包','paris'],['喺山野或溫泉入面醒嚟','iceland'],['天未光就出發睇日出古蹟','egypt']]},
+            {q:'旅行時你最想帶走啲乜？', o:[['平靜嘅心情','kyoto'],['一件好睇嘅藝術品或衫','paris'],['一張震撼嘅風景相','iceland'],['一個關於古文明嘅故事','egypt']]},
+            {q:'你最鍾意邊種天氣？', o:[['秋天嘅紅葉、春天嘅櫻花','kyoto'],['微涼、有啲文藝感嘅陰天','paris'],['寒冷清澈、有機會見到極光','iceland'],['乾爽猛烈嘅陽光','egypt']]},
+            {q:'邊種行程令你最興奮？', o:[['行遍古寺同小巷','kyoto'],['逛博物館同米芝蓮餐廳','paris'],['駕車追瀑布同冰川','iceland'],['入金字塔、遊尼羅河','egypt']]},
+            {q:'朋友形容你係……', o:[['沉靜、細心','kyoto'],['浪漫、有品味','paris'],['獨立、愛冒險','iceland'],['好奇、愛研究','egypt']]}
+        ];
+
+        let sc, n;
+
+        function intro() {
+            app.innerHTML = '<h1>邊個目的地啱你？</h1><p class="lead">五條小問題，睇吓京都、巴黎、冰島、埃及邊一個先係你嘅命定旅程。</p><div class="btns"><a href="#" id="go">開始測驗</a></div>';
+            document.getElementById('go').onclick = e => { e.preventDefault(); sc = {kyoto:0, paris:0, iceland:0, egypt:0}; n = 0; ask(); };
+        }
+
+        function ask() {
+            const item = qs[n];
+            let html = '<div class="qbar"><i style="width:' + (n / qs.length * 100) + '%"></i></div>' +
+                       '<p class="lead">第 ' + (n + 1) + ' / ' + qs.length + ' 題</p><h2>' + item.q + '</h2>';
+            item.o.forEach((o, i) => { html += '<button type="button" class="opt" data-i="' + i + '">' + o[0] + '</button>'; });
+            app.innerHTML = html;
+            app.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+                sc[item.o[+b.dataset.i][1]]++;
+                n++;
+                n < qs.length ? ask() : result();
+            });
+        }
+
+        function result() {
+            const keys = Object.keys(sc);
+            const win = keys.reduce((a, b) => sc[b] > sc[a] ? b : a);
+            const p = places[win];
+            let html = '<div class="qbar"><i style="width:100%"></i></div>' +
+                       '<h1>你嘅命定旅程：' + p.name + '</h1><p class="lead">' + p.desc + '</p>';
+            keys.forEach(k => {
+                html += '<div class="rbar"><span>' + places[k].name.split('・').pop() + '</span><b><i style="width:' + (sc[k] / qs.length * 100) + '%"></i></b><span>' + sc[k] + '</span></div>';
+            });
+            html += '<div class="btns" style="margin-top:22px"><a href="' + p.href + '">睇 ' + p.name + ' 旅遊指南</a><a href="#" class="o" id="again">再玩一次</a></div>';
+            app.innerHTML = html;
+            document.getElementById('again').onclick = e => { e.preventDefault(); intro(); };
+        }
+
+        intro();
+    })();
+    </script>
+</body>
+</html>

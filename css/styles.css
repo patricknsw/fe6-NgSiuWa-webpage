@@ -4,6 +4,7 @@
 :root{
   --cursor-plane:url('../images/mouse_pointer/airplane64x64.png') 4 4, auto;      /* 一般區域（4 4 = 點擊熱點） */
   --cursor-plane-link:url('../images/mouse_pointer/airplane64x64.png') 4 4, pointer; /* 可點擊元素：圖片載入失敗時退回手指 */
+  --a:#d9483b;                  /* 預設主題色（國家頁會用 .kyoto 等覆蓋；測驗頁冇國家 class 都有色） */
   --bg:#f3f5f8;
   --tx:#14202e;
   --mu:#52606f;
@@ -11,6 +12,7 @@
   --ln:#d5dce4;
   --hover-ln:#333;              /* 按鈕 hover 邊框（支援深色模式） */
   --hdr:rgba(187,181,181,.8);   /* header 捲動後嘅背景 */
+  --blue: #2f19d6;
 }
 
 @media(prefers-color-scheme:dark){
@@ -345,7 +347,10 @@ footer{
   object-fit:cover;
   object-position:center;
   filter:brightness(.7) contrast(1.1);
+  opacity:0;                       /* 雙 video 淡入淡出：冇 is-active 就隱藏 */
+  transition:opacity .8s ease;
 }
+.hero-video.is-active{ opacity:1 }
 
 .hero-overlay{
   position:absolute;
@@ -516,7 +521,7 @@ li{ margin:4px 0 }
 }
 
 .btns a{
-  background:var(--a);
+  background:var(--blue);
   color:#fff;
   padding:9px 16px;
   border-radius:99px;
@@ -724,3 +729,20 @@ summary,
   --b:#2a6f97;
   --photo:url('../images/Banner/埃及_02.jpg');
 }
+
+/* ===== 測驗頁 + 當地用語（新增） ===== */
+.qz{max-width:640px;margin:0 auto;padding:3vh 5vw 0}
+.qz h1{font-size:clamp(30px,8vw,44px);margin:3vh 0 10px}
+.qz h2{font-size:clamp(22px,5vw,28px);margin:0 0 18px}
+.qz .lead{color:var(--mu);margin:0 0 20px}
+.qbar{height:6px;background:var(--ln);border-radius:9px;overflow:hidden;margin:3vh 0 8px}
+.qbar i{display:block;height:100%;width:0;background:var(--tx);transition:width .35s}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:var(--tx);background:var(--card);border:2px solid var(--ln);border-radius:10px;padding:12px 16px;margin:0 0 10px;cursor:var(--cursor-plane-link);transition:border-color .2s,transform .2s}
+.opt:hover{border-color:var(--hover-ln)}
+.opt:active{transform:scale(.98)}
+.rbar{display:flex;align-items:center;gap:10px;font-size:14px;margin:6px 0}
+.rbar span:first-child{width:3em}
+.rbar b{flex:1;height:8px;background:var(--ln);border-radius:9px;overflow:hidden}
+.rbar i{display:block;height:100%;background:var(--a);border-radius:9px}
+.phrase{font:800 clamp(26px,6vw,36px) "Noto Serif TC",serif;color:var(--a);margin:4px 0 0}
+.phrase-sub{color:var(--mu);margin:2px 0 14px}
