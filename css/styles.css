@@ -55,6 +55,11 @@ body{
   cursor:var(--cursor-plane);
 }
 
+video {
+    background-color: #000000;
+    object-fit: contain; /* 確保影片比例正確 */
+}
+
 h1,h2,h3{
   font-family:"Noto Serif TC","Songti TC",serif;
   line-height:1.3;
