@@ -60,6 +60,10 @@ video {
     object-fit: contain; /* 確保影片比例正確 */
 }
 
+.hero-video {
+  background-color: #000000; /* Or match your site's background color */
+}
+
 h1,h2,h3{
   font-family:"Noto Serif TC","Songti TC",serif;
   line-height:1.3;
@@ -650,7 +654,7 @@ li{ margin:4px 0 }
 }
 
 /* ===== 細屏（手機）：header 收細，導覽放得晒 =====
-   注意：必須放喺 header / .logo / nav / #theme / .intro 基礎樣式「之後」，
+  注意：必須放喺 header / .logo / nav / #theme / .intro 基礎樣式「之後」，
    否則會被後面同優先級嘅基礎規則蓋返 */
 @media(max-width:600px){
   header{ gap:8px; padding:4px 3vw }
