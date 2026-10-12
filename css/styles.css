@@ -231,8 +231,8 @@ footer{
   pointer-events:none;
 }
 
-.media-hover-container:hover .hover-video{ opacity:1 }
-.media-hover-container:hover .static-image{ opacity:0 }
+.media-hover-container.is-playing .hover-video{ opacity:1 }
+.media-hover-container.is-playing .static-image{ opacity:0 }
 
 /* ===== 主頁卡片格 ===== */
 .grid{

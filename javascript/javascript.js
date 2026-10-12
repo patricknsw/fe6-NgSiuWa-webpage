@@ -21,10 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = container.querySelector('.hover-video');
     if (!video) return;
 
+    // 影片真係出到畫面先切換，避免黑屏
+    video.addEventListener('playing', () => {
+      if (container.matches(':hover')) container.classList.add('is-playing');
+    });
+
     container.addEventListener('mouseenter', () => {
       video.play().catch(() => {});
     });
     container.addEventListener('mouseleave', () => {
+      container.classList.remove('is-playing');
       video.pause();
       video.currentTime = 0;
     });
